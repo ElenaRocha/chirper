@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Chirp;
 use Illuminate\Http\Request;
 // use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Gate;
 
 class ChirpController extends Controller
 {
@@ -77,7 +78,7 @@ class ChirpController extends Controller
         //     'user_id' => null,
         // ]);
 
-        $request->user()->chirps()->create($validated);
+        auth()->user()->chirps()->create($validated);
 
         return redirect('/')->with('success', 'Your chirp has been posted!');
     }
@@ -95,6 +96,9 @@ class ChirpController extends Controller
      */
     public function edit(Chirp $chirp)
     {
+        // $this->authorize('edit', $chirp);
+        Gate::authorize('update', $chirp);
+
         return view('chirps.edit', compact('chirp'));
     }
 
@@ -104,9 +108,12 @@ class ChirpController extends Controller
     public function update(Request $request, Chirp $chirp)
     {
         // Use of policy
-        if ($request->user()->cannot('update', $chirp)) {
-            abort(403);
-        }
+        // if ($request->user()->cannot('update', $chirp)) {
+        //     abort(403);
+        // }
+
+        // $this->authorize('update', $chirp);
+        Gate::authorize('update', $chirp);
 
         // Validate
         $validated = $request->validate([
@@ -124,6 +131,9 @@ class ChirpController extends Controller
      */
     public function destroy(Chirp $chirp)
     {
+        // $this->authorize('destroy', $chirp);
+        Gate::authorize('delete', $chirp);
+
         $chirp->delete();
 
         return redirect('/')->with('success', 'Chirp deleted!');
