@@ -72,10 +72,12 @@ class ChirpController extends Controller
         //     ],
         // ]);
 
-        \App\Models\Chirp::create([
-            'message' => $validated['message'],
-            'user_id' => null,
-        ]);
+        // \App\Models\Chirp::create([
+        //     'message' => $validated['message'],
+        //     'user_id' => null,
+        // ]);
+
+        $request->user()->chirps()->create($validated);
 
         return redirect('/')->with('success', 'Your chirp has been posted!');
     }
