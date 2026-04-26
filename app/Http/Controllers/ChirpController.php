@@ -59,7 +59,7 @@ class ChirpController extends Controller
             'message.max' => 'Chirps must be 255 characters or less.',
         ]);
 
-        
+
         // $validated = $request->validate([
         //     'message' => [
         //         'required',
@@ -91,9 +91,9 @@ class ChirpController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Chirp $chirp)
     {
-        //
+        return view('chirps.edit', compact('chirp'));
     }
 
     /**
