@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChirpController;
+use App\Http\Controllers\Auth\Register;
 
 // Route::get('/', [ChirpController::class, 'index']);
 // Route::post('/chirps', [ChirpController::class, 'store']);
@@ -14,4 +15,12 @@ Route::get('/', [ChirpController::class, 'index']);
 Route::resource('chirps', ChirpController::class)
     ->only(['store', 'edit', 'update', 'destroy']);
 
-Route::view('/register', 'auth.register');
+// Registration routes
+// Route::view('/register', 'auth.register');
+
+Route::view('/register', 'auth.register')
+    ->middleware('guest')
+    ->name('register');
+
+Route::post('/register', Register::class)
+    ->middleware('guest');
